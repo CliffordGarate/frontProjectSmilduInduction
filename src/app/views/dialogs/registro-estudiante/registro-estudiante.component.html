@@ -9,37 +9,55 @@
     </mat-grid-tile>
 </mat-grid-list>
 
-<form class="example-form">
+<form class="example-form" *ngIf="estudianteFormGroup" [formGroup]="estudianteFormGroup">
 
     <table class="table_form" cellspacing="0">
         <tr>
             <td>
-                <mat-form-field class="example-full-width">
-                    <mat-label>Nombres</mat-label>
-                    <input matInput>
+                <mat-form-field class="example-full-width " >
+                    <mat-label>
+                        <small *ngIf="!estudianteFormGroup.get('nombre').touched">Nombre</small>
+                        <small *ngIf="!estudianteFormGroup.get('nombre').hasError('required')">Nombre</small>
+                        <small class="form-text text-danger"
+                        *ngIf="estudianteFormGroup.get('nombre').hasError('required') && estudianteFormGroup.get('nombre').touched">El
+                        campo es requerido</small>
+                    </mat-label>
+                    <input formControlName="nombre" matInput required >
                 </mat-form-field>
+             
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <mat-label>Apellido Paterno</mat-label>
-                    <input matInput>
+                    <mat-label>
+                        <small *ngIf="!estudianteFormGroup.get('ape_pat').touched">Apellido Paterno</small>
+                        <small *ngIf="!estudianteFormGroup.get('ape_pat').hasError('required')">Apellido Paterno</small>
+                        <small class="form-text text-danger"
+                        *ngIf="estudianteFormGroup.get('ape_pat').hasError('required') && estudianteFormGroup.get('ape_pat').touched">El
+                        campo es requerido</small>
+                    </mat-label>
+                    <input formControlName="ape_pat"  matInput required>
                 </mat-form-field>
             </td>
         </tr>
         <tr>
             <td>
                 <mat-form-field class="example-full-width">
-                    <mat-label>Apellido Materno</mat-label>
-                    <input matInput>
+                    <mat-label>
+                        <small *ngIf="!estudianteFormGroup.get('ape_mat').touched">Apellido Materno</small>
+                        <small *ngIf="!estudianteFormGroup.get('ape_mat').hasError('required')">Apellido Materno</small>
+                        <small class="form-text text-danger"
+                        *ngIf="estudianteFormGroup.get('ape_mat').hasError('required') && estudianteFormGroup.get('ape_mat').touched">El
+                        campo es requerido</small>
+                    </mat-label>
+                    <input formControlName="ape_mat" matInput required>
                 </mat-form-field>
             </td>
             <td>
                 <mat-form-field appearance="fill">
                     <mat-label>GRADO</mat-label>
-                    <mat-select >
-                      <mat-option value="option1">1 año</mat-option>
-                      <mat-option value="option2">2 año</mat-option>
-                      <mat-option value="option3">3 año</mat-option>
+                    <mat-select formControlName="id_grado" (selectionChange)="selectNivel($event.value)">
+                      <mat-option value="{{grado.id_grado}}" *ngFor="let grado of grados" >{{grado.desc_grado}} {{grado.nivel}}</mat-option>
+                   
                     </mat-select>
                   </mat-form-field>
             </td>
@@ -49,28 +67,30 @@
             <td>
                 <mat-form-field color="accent" appearance="fill">
                     <mat-label>Fecha de nacimiento</mat-label>
-                    <input matInput [matDatepicker]="picker2">
+                    <input formControlName="fechaNac" matInput [matDatepicker]="picker2" [max]="maxDate" (dateChange)="calcularEdad()">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2 color="primary"></mat-datepicker>
                   </mat-form-field>
             </td>
             <td>
-                <mat-form-field class="example-full-width">
+                <small class="edad" *ngIf="edadEstudiante">Edad: {{edadEstudiante}}</small>
+                <!-- <mat-form-field class="example-full-width">
                     <mat-label>Edad</mat-label>
-                    <input matInput disabled>
-                </mat-form-field>
+                    <small>{{edadEstudiante}}</small>
+                  <input  matInput disabled > 
+                </mat-form-field> -->
             </td>
         </tr>
 
         <tr>
             <td >
-                    <mat-label>Foto</mat-label>
-                    <input type="file">
+                    <mat-label>Foto: </mat-label>
+                    <input type="file" accept="image/png, .jpg, .jpge"(change)="fileChangeEvent($event)" >
             </td>
         </tr>
         <tr align="center">
             <td colspan="2">
-                <button class="btn_nuevo" mat-raised-button color="primary" >Agregar</button>
+                <button class="btn_nuevo" mat-raised-button color="primary" [disabled]="estudianteFormGroup.invalid" (click)="registrarEstudiante()">Agregar</button>
             </td>
         </tr>
     </table>

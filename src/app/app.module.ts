@@ -1,10 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from "@angular/common/http";
+import { DatePipe } from "@angular/common";
 
 
 import { AppComponent } from './app.component';
 import { TabGroupAnimationsExample } from './containers/default-layout/tab-group-animations-example';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators";
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -59,10 +65,16 @@ import { PagarPensionComponent } from './views/dialogs/pagar-pension/pagar-pensi
     MatDatepickerModule,
     MatNativeDateModule,
     MatPaginatorModule,
+    HttpClientModule,
+    RxReactiveFormsModule,
+    ReactiveFormsModule,
+    FormsModule,
+  
   ],
   providers: [
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

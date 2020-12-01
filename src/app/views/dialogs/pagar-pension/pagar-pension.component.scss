@@ -16,7 +16,24 @@
     left: auto !important;
     margin-top: -10px;
     font-size: 30px;
+    p{
+        font-size: 30px;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
 }
 p{
     font-size: 20px;
 }
+
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 25%;
+  }

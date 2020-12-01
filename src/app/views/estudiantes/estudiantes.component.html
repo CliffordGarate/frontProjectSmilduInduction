@@ -9,7 +9,7 @@
         <mat-grid-tile [colspan]="3" [rowspan]="1">
             <mat-form-field class="example-form-field">
                 <mat-label>Buscar</mat-label>
-                <input matInput type="text">
+                <input matInput type="text" (keyup)="applyFilter($event.target.value)">
                 <button mat-button matSuffix mat-icon-button aria-label="Search">
                     <mat-icon>search</mat-icon>
                 </button>
@@ -18,72 +18,18 @@
     </mat-grid-list>
 
     <mat-grid-list cols="4" rowHeight="450px">
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <mat-grid-tile [colspan]="1" [rowspan]="1" *ngFor="let estudiante of estudiantes">
             <mat-card class="example-card">
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                    alt="Photo of a Shiba Inu">
+                <img mat-card-image src="{{url_img}}/{{estudiante.foto_ruta}}"
+                    alt="">
                 <mat-card-content>
-                    <mat-card-title>Clifford Garate</mat-card-title>
-                    <mat-card-subtitle>21 años 9 meses</mat-card-subtitle>
-                    <mat-card-subtitle>4 to grado Primaria</mat-card-subtitle>
+                    <mat-card-title>{{estudiante.nom_persona}} {{estudiante.ape_pate_pers}} {{estudiante.ape_mate_pers}}</mat-card-title>
+                    <mat-card-subtitle>{{estudiante.edad}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{estudiante.grado}} {{estudiante.nivel}}</mat-card-subtitle>
                     <button mat-raised-button color="warn">BORRAR</button>
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <mat-card class="example-card">
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                    alt="Photo of a Shiba Inu">
-                <mat-card-content>
-                    <mat-card-title>Clifford Garate</mat-card-title>
-                    <mat-card-subtitle>21 años 9 meses</mat-card-subtitle>
-                    <mat-card-subtitle>4 to grado Primaria</mat-card-subtitle>
-                    <button mat-raised-button color="warn">BORRAR</button>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <mat-card class="example-card">
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                    alt="Photo of a Shiba Inu">
-                <mat-card-content>
-                    <mat-card-title>Clifford Garate</mat-card-title>
-                    <mat-card-subtitle>21 años 9 meses</mat-card-subtitle>
-                    <mat-card-subtitle>4 to grado Primaria</mat-card-subtitle>
-                    <button mat-raised-button color="warn">BORRAR</button>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <mat-card class="example-card">
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                    alt="Photo of a Shiba Inu">
-                <mat-card-content>
-                    <mat-card-title>Clifford Garate</mat-card-title>
-                    <mat-card-subtitle>21 años 9 meses</mat-card-subtitle>
-                    <mat-card-subtitle>4 to grado Primaria</mat-card-subtitle>
-                    <button mat-raised-button color="warn">BORRAR</button>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-
-        <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <mat-card class="example-card">
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                    alt="Photo of a Shiba Inu">
-                <mat-card-content>
-                    <mat-card-title>Clifford Garate</mat-card-title>
-                    <mat-card-subtitle>21 años 9 meses</mat-card-subtitle>
-                    <mat-card-subtitle>4 to grado Primaria</mat-card-subtitle>
-                    <button mat-raised-button color="warn">BORRAR</button>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-
     </mat-grid-list>
 
 </mat-card>

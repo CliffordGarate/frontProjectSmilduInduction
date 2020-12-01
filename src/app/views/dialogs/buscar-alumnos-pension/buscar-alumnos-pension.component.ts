@@ -2,47 +2,84 @@
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
-import {merge, Observable, of as observableOf} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import { EstudiantesService } from "../../../services/estudiantes.service";
+
+export interface estudiantesData {
+  id_persona: string;
+  nom_persona: string;
+  ape_pate_pers: string;
+  ape_mate_pers: string;
+  edad: string;
+  foto_ruta: string;
+  id_grado: string;
+  grado: string;
+  nivel: string;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+
 
 @Component({
   selector: 'app-buscar-alumnos-pension',
   templateUrl: './buscar-alumnos-pension.component.html',
   styleUrls: ['./buscar-alumnos-pension.component.scss']
 })
-export class BuscarAlumnosPensionComponent implements OnInit {
+export class BuscarAlumnosPensionComponent implements OnInit ,AfterViewInit {
 
-
-
-
+  displayedColumns: string[] = ['id_persona', 'nom_persona', 'grado','nro'];
+  dataSource: MatTableDataSource<estudiantesData>;
+  estudiantes=[];
+  resultsLength = 0;
+  selected = '0';
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    public dialogRef: MatDialogRef <BuscarAlumnosPensionComponent>
+    public dialogRef: MatDialogRef <BuscarAlumnosPensionComponent>,
+    private _estudianteService: EstudiantesService
   ) { }
 
-  ngOnInit(): void {
 
+
+  ngOnInit(): void {
+    this.listarAlumnos();
   }
+  ngAfterViewInit(): void {   
+    // this.dataSource.paginator = this.paginator;
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
+ }
+
+ applyFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage();
+  }
+}
+
+ listarAlumnos(){
+   this._estudianteService.listarEstudiantes().subscribe(
+     data=>{
+      console.log("estudiantes: ", data)
+      this.estudiantes = data.estudiantes;
+      this.dataSource = new MatTableDataSource(data.estudiantes);
+      this.resultsLength = data.estudiantes.length;
+      setTimeout(() =>{
+        this.dataSource.sort = this.sort
+        this.dataSource.paginator = this.paginator
+      }
+      );
+     },error=>{}
+   )
+ }
+
+ listarPagos(){
+   const infoSend = this.estudiantes.filter(x=> x.id_persona == this.selected)
+  this.dialogRef.close(infoSend);
  }
 
 }

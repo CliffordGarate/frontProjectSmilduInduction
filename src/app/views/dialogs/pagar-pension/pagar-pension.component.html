@@ -3,11 +3,11 @@
 
 <mat-grid-list cols="10" rowHeight="80px">
     <mat-grid-tile [colspan]="2" [rowspan]="1">
-        <div class="img_foto"> <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-            alt="Photo of a Shiba Inu"></div>
+        <div class="img_foto"> <img mat-card-image src="{{url_img}}{{fotoEstudiante}}"
+            alt=""></div>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="7" [rowspan]="1" class="title">
-     <p>Clifford Garate</p>
+     <p>{{nombreEstudiante}}</p>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="1" [rowspan]="1" class="btn_close">
         <button mat-button (click)="onNoClick()">
@@ -16,15 +16,50 @@
     </mat-grid-tile>
 </mat-grid-list>
 
+<div class="example-table-container" *ngIf="dataSource">
+    <table mat-table [dataSource]="dataSource" matSort matSortActive="created"
+     matSortDisableClear matSortDirection="desc">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="desc_pension">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Pensión </th>
+          <td mat-cell *matCellDef="let row"> {{row.desc_pension}} </td>
+        </ng-container>
+    
+        <!-- Progress Column -->
+        <ng-container matColumnDef="fecha_venci">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de vencimiento </th>
+          <td mat-cell *matCellDef="let row"> {{row.fecha_venci  | date:'yyyy-MM-dd'}}</td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="monto">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto </th>
+          <td mat-cell *matCellDef="let row"> {{row.monto}}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No hay pagos seleccionados</td>
+        </tr>
+      </table>
+      <mat-paginator #paginator [length]="resultsLength" [pageSize]="5" ></mat-paginator>
+   
+</div>
+
+
 <mat-grid-list cols="2" rowHeight="80px">
     <mat-grid-tile [colspan]="1" [rowspan]="1">
         <div class="footer_btn">
-            <p>Total $250</p>
+            <p>Total: {{total | currency}}</p>
         </div>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="1" [rowspan]="1">
         <div class="footer_btn">
-            <button class="btn_nuevo" mat-raised-button color="warn" >Pagar</button>
+            <button class="btn_nuevo" mat-raised-button color="warn" (click)="pagarPension()">Pagar</button>
         </div>
     </mat-grid-tile>
 </mat-grid-list>
